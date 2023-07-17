@@ -1,16 +1,24 @@
 body {
   font-family: sans-serif;
   background-color: whitesmoke;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .app {
   width: 300px;
-  height: 500px;
+  height: 500px; 
   border: 6px solid lightsteelblue;
   border-radius: 4px;
   padding: 15px;
-  background-color: white;
+  background-color: white; 
+  overflow-y: scroll; /* scrollbar */
 }
+
+.app::-webkit-scrollbar {
+  width: 0 !important
+} /* invisible scrollbar */
 
 #addNew { /* # to target div */
   display: flex; /* move icon */
@@ -50,5 +58,8 @@ body {
 
 .options i { /* targets icons */
   cursor: pointer;
+}
 
+#msg {
+  color: red;
 }
