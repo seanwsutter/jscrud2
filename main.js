@@ -1,13 +1,4 @@
-/* notes
-
-Command K+C to comment highlighted text
-stop page refreshing after clicking add
-'()=>{}' for an ES6 function
-invoke function placement important, js runs top to bottom
-
-
-*/
-
+// js crud
 
 let form = document.getElementById("form");
 let textInput = document.getElementById("textInput");
@@ -31,7 +22,7 @@ let formValidation = () => {
     console.log('success');
     msg.innerHTML = "";
     acceptData(); // invoke success state function
-    add.setAttribute("data-bs-dismiss","modal"); // set attribute function, data-bs-dismiss="modal", attribute.value
+    add.setAttribute("data-bs-dismiss","modal"); // set attribute function, attribute,value
     add.click(); // simulate button click for form to fade
     // (()=>{})(), IIFE function ()() Run once every success state 
 
@@ -40,21 +31,49 @@ let formValidation = () => {
     })()
   }
 };
-/*
-
-*/
  
-// sucess state 
-let data = {}; // created empty object to store data
-// 'acceptData' function to fetch/accept data from inputs and store/upload to screen inside 'data' object
-let acceptData = () => { // collects data
-  data["text"] = textInput.value;
-  data["date"] = dateInput.value;
-  data["description"] = textarea.value;
+// data storage
+let data = []; // created object to store data ({} to []) [{task1},{task2}]
+
+// 'acceptData' function to accept data from inputs and store inside 'data' object
+let acceptData = () => {
+  data.push({
+    text: textInput.value,
+    date: dateInput.value,
+    description: textarea.value,
+  });
+
+  localStorage.setItem("data", JSON.stringify(data));
+
+  console.log(data);
   createTasks();
-  // console.log(data);
-}; 
-// output result of 'data' to div id="tasks"
+};
+
+
+// data["text"] = textInput.value; 
+// data["date"] = dateInput.value;
+// data["description"] = textarea.value;
+
+let createTasks = () => {
+  tasks.innerHTML = "";
+  data.map((x, y) => {
+    return (tasks.innerHTML += `
+    <div id=${y}>
+          <span class="fw-bold">${x.text}</span>
+          <span class="small text-secondary">${x.date}</span>
+          <p>${x.description}</p>
+  
+          <span class="options">
+            <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
+            <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
+          </span>
+        </div>
+    `);
+  });
+
+  resetForm();
+};
+/* 
 let createTasks = () => { // NOTE add + so it wont replace previous tasks
   tasks.innerHTML += ` 
   <div>
@@ -63,51 +82,43 @@ let createTasks = () => { // NOTE add + so it wont replace previous tasks
     <p>${data.description}</p>
      
     <span class="options"> 
-      <i onClick="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" onClick="editTask(this" class="fas fa-edit"></i>
+      <i onClick="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" 
+      onClick="editTask(this)" class="fas fa-edit"></i>
       <i onClick="deleteTask(this)" class="fas fa-trash-alt"></i>
     </span>
   </div> 
   `; // replace text with ${data.text}, object.key, (this)
   resetForm(); // reset text input fields
 };
-
-let deleteTask = (e)=>{ // 'e' for examplej
+*/
+let deleteTask = (e) => {
   e.parentElement.parentElement.remove(); // delete parent div for task instead of icon
+  data.splice(e.parentElement.parentElement.id, 1);
+  localStorage.setItem("data", JSON.stringify(data));
+  console.log(data);
 };
 
 let editTask = (e) => {
   let selectedTask = e.parentElement.parentElement; // e.remove(); selectedTask?
-  // preserves first child, select 3 of 4 span class
   textInput.value = selectedTask.children[0].innerHTML; 
   dateInput.value = selectedTask.children[1].innerHTML;
   textarea.value = selectedTask.children[2].innerHTML;
-  selectedTask.remove();
-  
+
+  deleteTask(e);  
 };
-
-
 // reset form
 let resetForm = () => {
   textInput.value = "";
   dateInput.value = "";
   textarea.value = "";
 };
-// modal fade after submit
-/* 
 
-let createTasks = () => {
-   tasks.innerHTML += "Updated Task"; // NOTE add + so it wont replace previous tasks 
-}; 
+(() => {
+  data = JSON.parse(localStorage.getItem("data")) || []
+  console.log(data);
+  createTasks();
+})();
 
-<div>
-<span class="fw-bold">Task 1</span> <!--bootstrap, fw=font-weight-->
-<span class="small text-secondary">2023-7-15</span> <!--bootstrap, grey text-->
-<p>do yard work</p>
-  <span class="options"> <!--span.options, add buttons to icons-->
-    <i class="fas fa-edit"></i>
-    <i class="fas fa-trash-alt"></i>
-</span>
-</div> 
+ 
 
 
-*/

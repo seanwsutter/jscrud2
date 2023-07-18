@@ -10,7 +10,7 @@ body {
 .app {
   width: 300px;
   height: 500px; 
-  border: 6px solid lightsteelblue;
+  border: 4px solid lightsteelblue;
   border-radius: 4px;
   padding: 15px;
   background-color: white; 
@@ -24,11 +24,13 @@ body {
 #addNew { /* # to target div */
   display: flex; /* move icon */
   background-color: ghostwhite;
+  border: 3px solid;
+  border-radius: 2px;
+  border-color: lightsteelblue;
   align-items: center;
   justify-content: space-between;
   padding: 5px 10px;/* top bottom */
-  border-radius: 2px;
-  border-left: 2px;
+  
   cursor: pointer; /* changes cursor on hovering */
 }
 
@@ -39,14 +41,14 @@ body {
 
 #tasks {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 #tasks div { /* #tasks, targets all task divs */
-  background-color: whitesmoke; 
-  border: 4px solid lightsteelblue;
-  padding: 5px;
-  border-radius: 3px;
+  background-color: ghostwhite; 
+  border: 3px solid lightslategrey;
+  padding: 8px;
+  border-radius: 2px;
   display: grid;
   gap: 4px;
 }
@@ -54,7 +56,7 @@ body {
 .options { 
   justify-self: center; /* child div of tasks */
   display: flex;
-  gap: 20px;
+  gap: 10px;
 }
 
 .options i { /* targets icons */
